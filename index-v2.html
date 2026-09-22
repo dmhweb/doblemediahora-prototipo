@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#c8102e">
+  <title>Doble Media Hora | Prototipo v2 - Estructura real</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --red: #c8102e; --bg: #f5f6f8; --card: #fff; --text: #1a1a1a; --text-secondary: #5a5a5a; --border: #e5e7eb; --shadow: 0 2px 10px rgba(0,0,0,0.06); --radius: 12px; }
+    [data-theme="dark"] { --bg: #0f0f0f; --card: #1c1c1c; --text: #f0f0f0; --text-secondary: #a0a0a0; --border: #2d2d2d; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 80px; }
+    .top-bar { background: #111; color: #fff; font-size: 12px; padding: 6px 16px; display: flex; justify-content: space-between; }
+    .header { position: sticky; top: 0; z-index: 100; background: var(--card); border-bottom: 1px solid var(--border); padding: 10px 16px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow); }
+    .logo { font-weight: 800; font-size: 18px; color: var(--red); text-decoration: none; line-height: 1.1; }
+    .logo span { display: block; font-size: 10px; font-weight: 500; color: var(--text-secondary); }
+    .header-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .location-select { display: flex; align-items: center; gap: 4px; background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 6px 12px; font-size: 13px; }
+    .location-select select { border: none; background: transparent; font-weight: 600; color: var(--text); outline: none; }
+    .icon-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; color: var(--text); }
+    .icon-btn .ai-badge { position: absolute; top: -4px; right: -4px; background: var(--red); color: white; font-size: 9px; font-weight: 700; padding: 1px 4px; border-radius: 6px; }
+    .nav-desktop { display: none; background: var(--card); border-bottom: 1px solid var(--border); padding: 0 16px; overflow-x: auto; }
+    .nav-desktop a { display: inline-block; padding: 12px 14px; font-size: 13px; font-weight: 600; color: var(--text-secondary); text-decoration: none; border-bottom: 2px solid transparent; }
+    .nav-desktop a.active, .nav-desktop a:hover { color: var(--red); border-bottom-color: var(--red); }
+    .urgente { background: var(--red); color: white; padding: 10px 16px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
+    .urgente .badge { background: white; color: var(--red); font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 4px; }
+    main { max-width: 1200px; margin: 0 auto; padding: 16px; }
+    .hero { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+    .featured { background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+    .featured img { width: 100%; height: 220px; object-fit: cover; }
+    .featured-content { padding: 16px; }
+    .badge-loc { display: inline-block; background: var(--red); color: white; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; margin-bottom: 8px; }
+    .featured h1 { font-size: 22px; font-weight: 800; line-height: 1.25; margin-bottom: 8px; }
+    .meta { font-size: 13px; color: var(--text-secondary); display: flex; gap: 10px; flex-wrap: wrap; }
+    .side-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .side-card { background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+    .side-card img { width: 100%; height: 100px; object-fit: cover; }
+    .side-card-body { padding: 10px; }
+    .side-card h3 { font-size: 13px; font-weight: 700; line-height: 1.3; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .section-title { font-size: 16px; font-weight: 700; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; }
+    .section-title::before { content: ''; width: 4px; height: 18px; background: var(--red); border-radius: 2px; }
+    .news-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .card { background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+    .card img { width: 100%; height: 110px; object-fit: cover; }
+    .card-body { padding: 12px; }
+    .card h3 { font-size: 14px; font-weight: 700; line-height: 1.3; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .tv-section { background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin: 24px 0; }
+    .tv-header { background: #111; color: white; padding: 12px 16px; display: flex; justify-content: space-between; font-weight: 700; font-size: 14px; }
+    .tv-header span { font-size: 12px; font-weight: 500; opacity: 0.8; }
+    .tv-player { position: relative; padding-bottom: 56.25%; background: #000; }
+    .tv-player .placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; text-align: center; padding: 20px; }
+    .agenda-preview { background: var(--card); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); margin: 24px 0; }
+    .agenda-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .agenda-item:last-child { border-bottom: none; }
+    .agenda-date { width: 48px; text-align: center; }
+    .agenda-date .day { font-size: 22px; font-weight: 800; color: var(--red); line-height: 1; }
+    .agenda-date .month { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; }
+    .agenda-info h4 { font-size: 14px; font-weight: 700; }
+    .agenda-info p { font-size: 12px; color: var(--text-secondary); }
+    .ad-static { background: var(--bg); border: 1px dashed var(--border); border-radius: var(--radius); padding: 20px; text-align: center; color: var(--text-secondary); font-size: 13px; margin: 20px 0; }
+    .ad-google-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+    .ad-slot { background: var(--bg); border: 1px dashed #4285f4; border-radius: var(--radius); padding: 24px 12px; text-align: center; font-size: 12px; color: var(--text-secondary); }
+    .ad-slot.meta { border-color: #0668E1; }
+    .ad-slot strong { display: block; margin-bottom: 4px; color: var(--text); }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: var(--card); border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
+    .bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: var(--text-secondary); font-size: 10px; font-weight: 600; }
+    .bottom-nav a.active { color: var(--red); }
+    .bottom-nav svg { width: 22px; height: 22px; }
+    .hidden { display: none !important; }
+    @media (min-width: 768px) {
+      body { padding-bottom: 40px; }
+      .bottom-nav { display: none; }
+      .nav-desktop { display: block; }
+      .hero { grid-template-columns: 1.6fr 1fr; gap: 16px; }
+      .featured img { height: 100%; min-height: 340px; }
+      .featured h1 { font-size: 28px; }
+      .side-grid { grid-template-columns: 1fr 1fr; }
+      .news-grid-2 { grid-template-columns: repeat(4, 1fr); }
+      .ad-google-meta { grid-template-columns: 1fr 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar"><span>martes, 22 de septiembre de 2026</span><span>Prototipo v2 · Estructura real de la home</span></div>
+  <header class="header">
+    <a href="#" class="logo">Doble Media Hora<span>NORTE DE SANTA FE</span></a>
+    <div class="header-actions">
+      <div class="location-select">
+        <select><option>Reconquista</option><option>Avellaneda</option><option>Malabrigo</option><option>Romang</option></select>
+      </div>
+      <button class="icon-btn" onclick="document.getElementById('search').classList.add('open')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><span class="ai-badge">AI</span></button>
+      <button class="icon-btn" onclick="toggleDark()"><svg id="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/></svg></button>
+    </div>
+  </header>
+  <nav class="nav-desktop">
+    <a href="#" class="active">Inicio</a><a href="#">Reconquista</a><a href="#">Avellaneda</a><a href="#">Malabrigo</a><a href="#">Romang</a><a href="#">Regionales</a><a href="#">Provinciales</a><a href="#">Deportes</a><a href="#">Agenda de Eventos</a><a href="#">+ Noticias</a>
+  </nav>
+  <div class="urgente"><span class="badge">URGENTE</span><span>Crisis en Friar: despidos y caída de la actividad</span></div>
+  <main>
+    <section class="hero">
+      <article class="featured">
+        <img src="https://picsum.photos/seed/dmh-feat/900/500" alt="">
+        <div class="featured-content">
+          <span class="badge-loc">RECONQUISTA</span>
+          <h1>Crisis en Friar: despidos, retiros voluntarios y caída de la actividad</h1>
+          <div class="meta"><span>22 sep 2026</span><span>·</span><span>4 min</span><span>·</span><span>Por Pepe Sánchez</span></div>
+        </div>
+      </article>
+      <div class="side-grid">
+        <article class="side-card"><img src="https://picsum.photos/seed/rq1/400/250" alt=""><div class="side-card-body"><span class="badge-loc">RECONQUISTA</span><h3>Reconquista pondrá cepos a camiones y colectivos mal estacionados</h3><div class="meta">22 sep · 3 min</div></div></article>
+        <article class="side-card"><img src="https://picsum.photos/seed/rq2/400/250" alt=""><div class="side-card-body"><span class="badge-loc">RECONQUISTA</span><h3>Peralta solicita precisiones sobre el nuevo estadio</h3><div class="meta">22 sep · 4 min</div></div></article>
+        <article class="side-card"><img src="https://picsum.photos/seed/av1/400/250" alt=""><div class="side-card-body"><span class="badge-loc">AVELLANEDA</span><h3>Avellaneda presentó programa de incubación y vinculación laboral</h3><div class="meta">22 sep · 3 min</div></div></article>
+        <article class="side-card"><img src="https://picsum.photos/seed/av2/400/250" alt=""><div class="side-card-body"><span class="badge-loc">AVELLANEDA</span><h3>La Unión Agrícola celebra 107 años con jornada comunitaria</h3><div class="meta">21 sep · 3 min</div></div></article>
+      </div>
+    </section>
+    <div class="ad-static"><strong>Espacio publicidad estática</strong><br>Mismo formato actual · Imagen WebP / video liviano</div>
+    <h2 class="section-title">Regionales</h2>
+    <div class="news-grid-2">
+      <article class="card"><img src="https://picsum.photos/seed/reg1/400/250" alt=""><div class="card-body"><span class="badge-loc">REGIONALES</span><h3>San Cristóbal prepara la 59ª Fiesta Nacional del Caballo</h3><div class="meta">21 sep · 3 min</div></div></article>
+      <article class="card"><img src="https://picsum.photos/seed/reg2/400/250" alt=""><div class="card-body"><span class="badge-loc">REGIONALES</span><h3>Productores del norte santafesino alertan por la seca</h3><div class="meta">21 sep · 4 min</div></div></article>
+    </div>
+    <h2 class="section-title">Provinciales</h2>
+    <div class="news-grid-2">
+      <article class="card"><img src="https://picsum.photos/seed/prov1/400/250" alt=""><div class="card-body"><span class="badge-loc">PROVINCIALES</span><h3>Santa Fe sostiene el equilibrio de sus cuentas corrientes</h3><div class="meta">22 sep · 5 min</div></div></article>
+      <article class="card"><img src="https://picsum.photos/seed/prov2/400/250" alt=""><div class="card-body"><span class="badge-loc">PROVINCIALES</span><h3>El Gobierno analiza suspensiones rotativas ante la crisis de los frigoríficos</h3><div class="meta">21 sep · 4 min</div></div></article>
+    </div>
+    <div class="tv-section">
+      <div class="tv-header"><div>DMH TV – CONECTA CON LA REGIÓN</div><span>Link actualizable diariamente</span></div>
+      <div class="tv-player"><div class="placeholder"><strong>▶ Reproductor del canal</strong><br><small>Acá se carga el video del día.<br>Se puede automatizar desde WordPress con un campo personalizado.</small></div></div>
+    </div>
+    <div class="ad-google-meta">
+      <div class="ad-slot"><strong>Google AdSense</strong>Slot 300×250 / responsive</div>
+      <div class="ad-slot meta"><strong>Meta Ads</strong>Audience Network / Placement</div>
+    </div>
+    <h2 class="section-title">Deportes</h2>
+    <div class="news-grid-2">
+      <article class="card"><img src="https://picsum.photos/seed/dep1/400/250" alt=""><div class="card-body"><span class="badge-loc">DEPORTES</span><h3>Reconquista será sede de capacitación deportiva de alto nivel</h3><div class="meta">21 sep · 3 min</div></div></article>
+      <article class="card"><img src="https://picsum.photos/seed/dep2/400/250" alt=""><div class="card-body"><span class="badge-loc">DEPORTES</span><h3>Barrio Norte golpeó a Matienzo y dejó al rojo vivo los playoffs</h3><div class="meta">20 sep · 4 min</div></div></article>
+    </div>
+    <div class="agenda-preview">
+      <h2 class="section-title" style="margin-top:0">Agenda de Eventos</h2>
+      <div class="agenda-item"><div class="agenda-date"><div class="day">24</div><div class="month">Sep</div></div><div class="agenda-info"><h4>Feria de Emprendedores Locales</h4><p>📍 Reconquista · 10 a 18 hs</p></div></div>
+      <div class="agenda-item"><div class="agenda-date"><div class="day">30</div><div class="month">Sep</div></div><div class="agenda-info"><h4>Charla: Ciberseguridad para PyMEs</h4><p>📍 Avellaneda · 19 hs</p></div></div>
+      <div class="agenda-item"><div class="agenda-date"><div class="day">07</div><div class="month">Oct</div></div><div class="agenda-info"><h4>Festival Cultural del Norte Santafesino</h4><p>📍 Malabrigo · Todo el día</p></div></div>
+      <div style="text-align:center;margin-top:12px"><a href="#" style="color:var(--red);font-weight:600;font-size:14px">Ver agenda completa + mapa →</a></div>
+    </div>
+    <h2 class="section-title">+ Noticias</h2>
+    <div class="news-grid-2">
+      <article class="card"><img src="https://picsum.photos/seed/ult1/400/250" alt=""><div class="card-body"><span class="badge-loc">ÚLTIMAS</span><h3>Itaipú libera agua y el Paraná tendrá una crecida paulatina</h3><div class="meta">22 sep · 3 min</div></div></article>
+      <article class="card"><img src="https://picsum.photos/seed/ult2/400/250" alt=""><div class="card-body"><span class="badge-loc">ÚLTIMAS</span><h3>Dónde sacar las entradas para el último partido de Messi</h3><div class="meta">22 sep · 2 min</div></div></article>
+      <article class="card"><img src="https://picsum.photos/seed/ult3/400/250" alt=""><div class="card-body"><span class="badge-loc">ÚLTIMAS</span><h3>Obras públicas que el Gobierno proyecta para Santa Fe</h3><div class="meta">21 sep · 4 min</div></div></article>
+      <article class="card"><img src="https://picsum.photos/seed/ult4/400/250" alt=""><div class="card-body"><span class="badge-loc">ÚLTIMAS</span><h3>Técnicos de Tacuarendí llevaron herramientas a Corrientes</h3><div class="meta">20 sep · 3 min</div></div></article>
+    </div>
+    <div class="ad-static" style="margin-top:28px"><strong>Espacio publicidad estática inferior</strong><br>Banner horizontal · Mismo sistema actual</div>
+  </main>
+  <nav class="bottom-nav">
+    <a href="#" class="active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Inicio</a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Secciones</a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Agenda</a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>DMH TV</a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>Más</a>
+  </nav>
+  <script>
+    function toggleDark() {
+      const d = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', d ? '' : 'dark');
+    }
+  </script>
+</body>
+</html>

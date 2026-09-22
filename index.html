@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#c8102e">
+  <meta name="description" content="Doble Media Hora - Noticias del norte de Santa Fe">
+  <title>Doble Media Hora | Prototipo Rediseño</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #c8102e;
+      --red-dark: #a00d25;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --text-secondary: #5a5a5a;
+      --border: #e5e7eb;
+      --shadow: 0 2px 8px rgba(0,0,0,0.06);
+      --radius: 12px;
+      --header-h: 60px;
+      --bottom-nav-h: 64px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f0f0f;
+      --card: #1a1a1a;
+      --text: #f0f0f0;
+      --text-secondary: #a0a0a0;
+      --border: #2a2a2a;
+      --shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: calc(var(--bottom-nav-h) + 20px);
+      transition: background 0.25s, color 0.25s;
+    }
+
+    /* ========== HEADER ========== */
+    .top-bar {
+      background: #111;
+      color: #fff;
+      font-size: 12px;
+      padding: 6px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--red);
+      text-decoration: none;
+      white-space: nowrap;
+      line-height: 1.1;
+    }
+    .logo span {
+      display: block;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.5px;
+    }
+
+    .header-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .location-select {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .location-select select {
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      outline: none;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      color: var(--text);
+    }
+    .icon-btn .ai-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--red);
+      color: white;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 4px;
+      border-radius: 6px;
+    }
+
+    /* ========== NAV DESKTOP ========== */
+    .nav-desktop {
+      display: none;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 16px;
+      overflow-x: auto;
+    }
+    .nav-desktop a {
+      display: inline-block;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+    .nav-desktop a:hover,
+    .nav-desktop a.active {
+      color: var(--red);
+      border-bottom-color: var(--red);
+    }
+
+    /* ========== URGENTE ========== */
+    .urgente {
+      background: var(--red);
+      color: white;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .urgente .badge {
+      background: white;
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* Featured */
+    .featured {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    .featured img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+    .featured-content {
+      padding: 16px;
+    }
+    .badge-localidad {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 8px;
+    }
+    .featured h1 {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+    .meta {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Locality chips */
+    .chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .chip.active {
+      background: var(--red);
+      color: white;
+      border-color: var(--red);
+    }
+
+    /* News grid */
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background: var(--red);
+      border-radius: 2px;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+    }
+    .card:active { transform: scale(0.98); }
+    .card img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      display: block;
+    }
+    .card-body {
+      padding: 12px;
+    }
+    .card .badge-localidad {
+      font-size: 10px;
+      margin-bottom: 6px;
+    }
+    .card h3 {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card .meta {
+      font-size: 11px;
+    }
+
+    /* Agenda preview */
+    .agenda-preview {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      margin-top: 24px;
+    }
+    .agenda-item {
+      display: flex;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .agenda-item:last-child { border-bottom: none; }
+    .agenda-date {
+      flex-shrink: 0;
+      width: 48px;
+      text-align: center;
+    }
+    .agenda-date .day {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--red);
+      line-height: 1;
+    }
+    .agenda-date .month {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+    .agenda-info h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .agenda-info p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Ad placeholder */
+    .ad-placeholder {
+      background: var(--bg);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin: 20px 0;
+    }
+
+    /* ========== BOTTOM NAV (mobile) ========== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--bottom-nav-h);
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .bottom-nav a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .bottom-nav a.active {
+      color: var(--red);
+    }
+    .bottom-nav svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* ========== SEARCH MODAL ========== */
+    .search-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 60px;
+    }
+    .search-overlay.open { display: flex; }
+    .search-box {
+      background: var(--card);
+      width: 94%;
+      max-width: 560px;
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .search-box input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--red);
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .search-hint {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .search-hint strong { color: var(--red); }
+
+    /* ========== DESKTOP ADJUSTMENTS ========== */
+    @media (min-width: 768px) {
+      body { padding-bottom: 40px; }
+      .bottom-nav { display: none; }
+      .nav-desktop { display: block; }
+      .header { padding: 12px 24px; }
+      .logo { font-size: 22px; }
+      main { padding: 24px; }
+      .featured img { height: 360px; }
+      .featured h1 { font-size: 32px; }
+      .news-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+      .card img { height: 140px; }
+      .card h3 { font-size: 15px; }
+    }
+
+    @media (min-width: 1024px) {
+      .featured {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+      }
+      .featured img { height: 100%; min-height: 320px; }
+    }
+
+    /* Utility */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <!-- Top bar -->
+  <div class="top-bar">
+    <span id="current-date">miércoles, 16 de septiembre de 2026</span>
+    <span>Prototipo funcional · Rediseño DMH</span>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <a href="#" class="logo">
+      Doble Media Hora
+      <span>NORTE DE SANTA FE</span>
+    </a>
+
+    <div class="header-actions">
+      <div class="location-select">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <select id="localidad" onchange="cambiarLocalidad(this.value)">
+          <option value="reconquista">Reconquista</option>
+          <option value="avellaneda">Avellaneda</option>
+          <option value="malabrigo">Malabrigo</option>
+          <option value="romang">Romang</option>
+          <option value="regionales">Regionales</option>
+        </select>
+      </div>
+
+      <button class="icon-btn" onclick="abrirBusqueda()" title="Buscar con IA">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span class="ai-badge">AI</span>
+      </button>
+
+      <button class="icon-btn" onclick="toggleDark()" title="Modo oscuro">
+        <svg id="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg id="icon-moon" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Desktop nav -->
+  <nav class="nav-desktop">
+    <a href="#" class="active">Inicio</a>
+    <a href="#">Reconquista</a>
+    <a href="#">Avellaneda</a>
+    <a href="#">Malabrigo</a>
+    <a href="#">Romang</a>
+    <a href="#">Regionales</a>
+    <a href="#">Provinciales</a>
+    <a href="#">Deportes</a>
+    <a href="#">Policiales</a>
+    <a href="#">Agenda de Eventos</a>
+  </nav>
+
+  <!-- Urgente -->
+  <div class="urgente">
+    <span class="badge">URGENTE</span>
+    <span id="urgente-text">Crisis en Friar: despidos y caída de la actividad en el principal frigorífico del norte santafesino</span>
+  </div>
+
+  <main>
+    <!-- Featured -->
+    <article class="featured">
+      <img src="https://picsum.photos/seed/dmh-featured/800/400" alt="Planta industrial">
+      <div class="featured-content">
+        <span class="badge-localidad" id="featured-badge">RECONQUISTA</span>
+        <h1 id="featured-title">Crisis en Friar: despidos, retiros voluntarios y caída de la actividad</h1>
+        <div class="meta">
+          <span>16 sep 2026</span>
+          <span>·</span>
+          <span>4 min de lectura</span>
+          <span>·</span>
+          <span>Por Pepe Sánchez</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Chips de localidad -->
+    <div class="chips" id="chips">
+      <button class="chip active" data-loc="reconquista" onclick="filtrarLocalidad('reconquista')">Reconquista</button>
+      <button class="chip" data-loc="avellaneda" onclick="filtrarLocalidad('avellaneda')">Avellaneda</button>
+      <button class="chip" data-loc="malabrigo" onclick="filtrarLocalidad('malabrigo')">Malabrigo</button>
+      <button class="chip" data-loc="romang" onclick="filtrarLocalidad('romang')">Romang</button>
+      <button class="chip" data-loc="regionales" onclick="filtrarLocalidad('regionales')">Regionales</button>
+    </div>
+
+    <!-- News grid -->
+    <h2 class="section-title">Últimas de <span id="section-loc">Reconquista</span></h2>
+    <div class="news-grid" id="news-grid">
+      <!-- Se llena por JS -->
+    </div>
+
+    <!-- Ad placeholder -->
+    <div class="ad-placeholder">
+      Espacio publicitario · Imagen estática WebP / video liviano<br>
+      <small>(sin GIFs pesados · lazy loading)</small>
+    </div>
+
+    <!-- Agenda -->
+    <div class="agenda-preview">
+      <h2 class="section-title" style="margin-top:0">Agenda de Eventos</h2>
+      <div class="agenda-item">
+        <div class="agenda-date">
+          <div class="day">24</div>
+          <div class="month">May</div>
+        </div>
+        <div class="agenda-info">
+          <h4>Feria de Emprendedores Locales</h4>
+          <p>📍 Reconquista · 10 a 18 hs</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-date">
+          <div class="day">30</div>
+          <div class="month">May</div>
+        </div>
+        <div class="agenda-info">
+          <h4>Charla: Ciberseguridad para PyMEs</h4>
+          <p>📍 Avellaneda · 19 hs</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-date">
+          <div class="day">07</div>
+          <div class="month">Jun</div>
+        </div>
+        <div class="agenda-info">
+          <h4>Festival Cultural del Norte Santafesino</h4>
+          <p>📍 Malabrigo · Todo el día</p>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:12px;">
+        <a href="#" style="color:var(--red); font-weight:600; font-size:14px;">Ver agenda completa + mapa →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom nav mobile -->
+  <nav class="bottom-nav">
+    <a href="#" class="active">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      Inicio
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      Secciones
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      Último
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      Podcast
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+      Más
+    </a>
+  </nav>
+
+  <!-- Search overlay -->
+  <div class="search-overlay" id="search-overlay" onclick="cerrarBusqueda(event)">
+    <div class="search-box" onclick="event.stopPropagation()">
+      <input type="text" id="search-input" placeholder="Ej: qué fiestas hay este fin de semana en Romang..." autofocus>
+      <div class="search-hint">
+        Buscador semántico con IA · Entiende lenguaje natural<br>
+        Probá: <strong>"últimas de Friar"</strong> · <strong>"eventos en Avellaneda"</strong>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Datos de ejemplo por localidad
+    const noticias = {
+      reconquista: [
+        { titulo: "Reconquista pondrá cepos a camiones y colectivos mal estacionados", img: "https://picsum.photos/seed/dmh1/400/300", fecha: "16 sep", min: "3 min", badge: "RECONQUISTA" },
+        { titulo: "Peralta solicita precisiones sobre el nuevo estadio", img: "https://picsum.photos/seed/dmh2/400/300", fecha: "16 sep", min: "4 min", badge: "RECONQUISTA" },
+        { titulo: "Nuevo sistema de turnos online en el Hospital local", img: "https://picsum.photos/seed/dmh3/400/300", fecha: "15 sep", min: "2 min", badge: "RECONQUISTA" },
+        { titulo: "Avanzan las obras en el nuevo acceso norte", img: "https://picsum.photos/seed/dmh4/400/300", fecha: "15 sep", min: "3 min", badge: "RECONQUISTA" }
+      ],
+      avellaneda: [
+        { titulo: "Avellaneda presentó programa de incubación y vinculación laboral", img: "https://picsum.photos/seed/dmh5/400/300", fecha: "16 sep", min: "4 min", badge: "AVELLANEDA" },
+        { titulo: "La Unión Agrícola celebra 107 años con jornada comunitaria", img: "https://picsum.photos/seed/dmh6/400/300", fecha: "15 sep", min: "3 min", badge: "AVELLANEDA" },
+        { titulo: "Comenzó la pavimentación de 18 cuadras en el centro", img: "https://picsum.photos/seed/dmh7/400/300", fecha: "14 sep", min: "2 min", badge: "AVELLANEDA" },
+        { titulo: "La Fiesta Provincial del Mate ya tiene cronograma", img: "https://picsum.photos/seed/dmh8/400/300", fecha: "13 sep", min: "3 min", badge: "AVELLANEDA" }
+      ],
+      malabrigo: [
+        { titulo: "Malabrigo: inauguraron el nuevo centro de salud", img: "https://picsum.photos/seed/dmh9/400/300", fecha: "15 sep", min: "3 min", badge: "MALABRIGO" },
+        { titulo: "Productores agropecuarios alertan por la falta de lluvias", img: "https://picsum.photos/seed/dmh10/400/300", fecha: "14 sep", min: "4 min", badge: "MALABRIGO" },
+        { titulo: "Inauguraron sala de primeros auxilios en la zona rural", img: "https://picsum.photos/seed/dmh11/400/300", fecha: "13 sep", min: "2 min", badge: "MALABRIGO" },
+        { titulo: "Escuela Técnica presentó su muestra anual de proyectos", img: "https://picsum.photos/seed/dmh12/400/300", fecha: "12 sep", min: "3 min", badge: "MALABRIGO" }
+      ],
+      romang: [
+        { titulo: "Romang: continúan los controles de pesca y protección del río", img: "https://picsum.photos/seed/dmh13/400/300", fecha: "15 sep", min: "3 min", badge: "ROMANG" },
+        { titulo: "Continúa la búsqueda de un joven de 22 años en el río", img: "https://picsum.photos/seed/dmh14/400/300", fecha: "14 sep", min: "4 min", badge: "ROMANG" },
+        { titulo: "El municipio presentó el programa de invierno 2026", img: "https://picsum.photos/seed/dmh15/400/300", fecha: "13 sep", min: "2 min", badge: "ROMANG" },
+        { titulo: "Bomberos realizó jornada de prevención en escuelas", img: "https://picsum.photos/seed/dmh16/400/300", fecha: "12 sep", min: "3 min", badge: "ROMANG" }
+      ],
+      regionales: [
+        { titulo: "Productores del norte santafesino alertan por la seca", img: "https://picsum.photos/seed/dmh17/400/300", fecha: "16 sep", min: "4 min", badge: "REGIONALES" },
+        { titulo: "San Cristóbal prepara la 59ª Fiesta Nacional del Caballo", img: "https://picsum.photos/seed/dmh18/400/300", fecha: "15 sep", min: "3 min", badge: "REGIONALES" },
+        { titulo: "Santa Fe sostiene el equilibrio de sus cuentas", img: "https://picsum.photos/seed/dmh19/400/300", fecha: "14 sep", min: "5 min", badge: "PROVINCIALES" },
+        { titulo: "Obras públicas proyectadas para Santa Fe en el Presupuesto 2027", img: "https://picsum.photos/seed/dmh20/400/300", fecha: "13 sep", min: "4 min", badge: "PROVINCIALES" }
+      ]
+    };
+
+    const fallbackImgs = [
+      "https://picsum.photos/seed/dmh1/400/300",
+      "https://picsum.photos/seed/dmh2/400/300",
+      "https://picsum.photos/seed/dmh3/400/300",
+      "https://picsum.photos/seed/dmh4/400/300",
+      "https://picsum.photos/seed/dmh5/400/300",
+      "https://picsum.photos/seed/dmh6/400/300",
+      "https://picsum.photos/seed/dmh7/400/300",
+      "https://picsum.photos/seed/dmh8/400/300"
+    ];
+
+    function renderNoticias(loc) {
+      const grid = document.getElementById('news-grid');
+      const data = noticias[loc] || noticias.reconquista;
+      grid.innerHTML = data.map((n, i) => `
+        <article class="card">
+          <img src="${fallbackImgs[i % fallbackImgs.length]}" alt="" loading="lazy">
+          <div class="card-body">
+            <span class="badge-localidad">${n.badge}</span>
+            <h3>${n.titulo}</h3>
+            <div class="meta">${n.fecha} · ${n.min}</div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function filtrarLocalidad(loc) {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      document.querySelector(`.chip[data-loc="${loc}"]`).classList.add('active');
+      document.getElementById('section-loc').textContent = loc.charAt(0).toUpperCase() + loc.slice(1);
+      document.getElementById('localidad').value = loc;
+      renderNoticias(loc);
+    }
+
+    function cambiarLocalidad(loc) {
+      filtrarLocalidad(loc);
+    }
+
+    function toggleDark() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+      document.getElementById('icon-sun').classList.toggle('hidden', !isDark);
+      document.getElementById('icon-moon').classList.toggle('hidden', isDark);
+      localStorage.setItem('dmh-theme', isDark ? 'light' : 'dark');
+    }
+
+    function abrirBusqueda() {
+      document.getElementById('search-overlay').classList.add('open');
+      document.getElementById('search-input').focus();
+    }
+    function cerrarBusqueda(e) {
+      if (e.target.id === 'search-overlay') {
+        document.getElementById('search-overlay').classList.remove('open');
+      }
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNoticias('reconquista');
+      if (localStorage.getItem('dmh-theme') === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('icon-sun').classList.add('hidden');
+        document.getElementById('icon-moon').classList.remove('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.getElementById('search-overlay').classList.remove('open');
+    });
+  </script>
+</body>
+</html>
